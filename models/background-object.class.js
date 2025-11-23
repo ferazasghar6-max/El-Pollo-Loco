@@ -9,8 +9,9 @@ export class BackgroundObject extends MovableObjekt {
     width = 720;
 
 
-    constructor(imagePath){
+    constructor(imagePath, _x){
         super().loadImage(imagePath);
+        this.x = _x;
     }
 
 }

@@ -1,4 +1,5 @@
 import { ImageHub } from "./imageHub.class.js";
+import { IntervalHub } from "./intervalHub.class.js";
 import { MovableObjekt } from "./movable-object.class.js";
 
 export class Chicken extends MovableObjekt{
@@ -15,20 +16,18 @@ export class Chicken extends MovableObjekt{
         // Erst müssen alle Bilder geladen werden  über loadImages um sie anzeigen zu können
         // über animate
         this.loadImages(ImageHub.chickenNormal.walk);
-        this.animate();
-         
+        this.animate();         
     }
 
-        animate(){
-            this.moveLeft();
+    animate() {
+        IntervalHub.startInterval(() => {
+            this.moveLeft();   
+        }, 1000 / 60);
+    
 
-            setInterval(() =>{
-            let i = this.currentImage % ImageHub.chickenNormal.walk.length;
-            let path = ImageHub.chickenNormal.walk[i];
-            this.img = this.imageCache[path];
-            this.currentImage++;
-        
-            }, 200);
-        }
+    IntervalHub.startInterval(() => {
+        this.playAnimation(ImageHub.chickenNormal.walk);
+    }, 200);
+}   
 
 }
