@@ -11,8 +11,6 @@ export class Keyboard {
         window.addEventListener("keydown", (e) => {
             if(e.key == ' '){
                 Keyboard.UP = true;
-                console.log(Keyboard.UP);
-                
             }
             if(e.key == 'ArrowLeft'){
                 Keyboard.LEFT = true;
@@ -28,7 +26,6 @@ export class Keyboard {
         window.addEventListener("keyup", (e) => {
             if(e.key == ' '){
                 Keyboard.UP = false;
-                console.log(Keyboard.UP);
             }
             if(e.key == 'ArrowLeft'){
                 Keyboard.LEFT = false;
@@ -36,7 +33,7 @@ export class Keyboard {
             if(e.key == 'ArrowRight'){
                 Keyboard.RIGHT = false;
             }
-            if(e.key == 'D'){
+            if(e.key == 'd'){
                 Keyboard.D = false;
             }
         });

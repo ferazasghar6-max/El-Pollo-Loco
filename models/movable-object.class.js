@@ -1,20 +1,17 @@
+import { DrawableObject } from "./drawable-object.class.js";
 import { IntervalHub } from "./intervalHub.class.js";
 
 
 
-export class MovableObjekt{
-    x;
-    y;
-    img;
-    height;
-    width;
-    currentImage = 0;
+export class MovableObjekt extends DrawableObject{
+
     speed = 0.15;
     otherDirection = false;
     speedY = 0;
-    acceleration = 2.5;
-    // Wozu brauchen wir dieses Objekt genau? Falls nicht richtig beantwortet wird Nico fragen!
-    imageCache = {}
+    acceleration = 2.5; // Fallgeschwindigkeit
+    energy = 100;
+    lastHit = 0;
+    
     
     applyGravity(){
         IntervalHub.startInterval(() => {
@@ -22,45 +19,48 @@ export class MovableObjekt{
             this.y -= this.speedY;
             this.speedY -= this.acceleration;
             }
-        }, 1000 / 25);
+        }, 1000 / 25); // Bewegung der Objekte auf der Y-Achse (hoch uns runter)
     }
 
     isAboveGround(){
+        // ThrowableObjects sollen immer Fallen!
+        // if (this instanceOf ThrowableObject){
+        //     return true;
+        // } else {
+        //     return this.y < 150;
+        // }
         return this.y < 150;
     }
 
-
-    // loadImage (img/test.png);
-    loadImage(path){
-        // this.img = document.getElementById ("image") <img id="image" src"""> / ist das selbe nur für JS
-        this.img = new Image(); 
-        this.img.src = path;
+    isColliding(mo) {
+        return this.x + this.width > mo.x &&
+           this.y + this.height > mo.y &&
+           this.x < mo.x &&
+           this.y < mo.y + mo.height;
     }
 
-    // Um uns unsere Bilder anzeigen zu lassen mit x und y Achse, Breite und Höhe
-    draw(ctx){
-        ctx.drawImage(this.img, this.x, this.y, this.width, this.height);
-    }
-    // Hier lassen wir uns unsere blauen Rahmen anzeigen um unsere Elemente
-    drawFrame(ctx){
-        // if(this instanceof Character || this instanceof Chicken){
-        ctx.beginPath();
-        ctx.lineWidth = "5";
-        ctx.strokeStyle = "blue";
-        ctx.rect(this.x, this.y, this.width, this.height);
-        ctx.stroke();
-        // }
+    hit(){
+        this.energy -= 5;
+        if(this.energy < 0){
+            this.energy = 0;
+        } else{
+            // diese Funktion ist vorgefertigt, und ermöglicht es uns 
+            // den Zeitpunkt der Collision in dem Fall zu bestimmen (new Date().getTime()) --> Milisekunden ab dem 01.01.1970
+            this.lastHit = new Date().getTime();
+        }
     }
 
-    loadImages(arr){
-        arr.forEach((path) => {
-        let img = new Image();
-        img.src = path;
-        // this bezieht sich auf eine globale Variable in der Klasse (Attribut)! 
-        // Alles was nur in der Funktion gültig ist wird ohne this geschrieben.
-        this.imageCache[path] = img;
-        });
+    isDead(){
+        return this.energy == 0;
     }
+
+    isHurt(){
+        let timePassed = new Date().getTime() - this.lastHit; // Differenz in ms
+        timePassed = timePassed / 1000; // Differenz in Sekunden
+        return timePassed < 2;
+    }
+
+
 
     moveRight(){
         this.x += this.speed;

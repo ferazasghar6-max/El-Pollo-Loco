@@ -17,15 +17,18 @@ export class Character extends MovableObjekt{
 
 
     constructor(){
+        // Ein Bild muss geladen werden, damit es standardmäßig etwas anzeigt, noch bevor man etwas drückt
         super().loadImage("img/2_character_pepe/1_idle/idle/I-1.png");
+        // Bilder müssen im constructor vorgeladen werden, um sie später verwenden zu können.
         this.loadImages(ImageHub.pepe.walk);
         this.loadImages(ImageHub.pepe.jump);
+        this.loadImages(ImageHub.pepe.dead);
+        this.loadImages(ImageHub.pepe.hurt);
         this.applyGravity();
         this.animate();
     }
     
     animate() {
-
     IntervalHub.startInterval(() => {
         // Mit this.world.level.level_end_x verhindern wir, dass der Character weiter nach rechts laufen kann (Ende vom Level)
         if (Keyboard.RIGHT && this.x < this.world.level.level_end_x) {
@@ -39,7 +42,7 @@ export class Character extends MovableObjekt{
             this.otherDirection = true;
             // walking sound hier einfügen
         }
-        // wir können nur springen wenn unser Character auf dem Boden ist
+        // Wir können nur springen wenn unser Character auf dem Boden ist
         if(Keyboard.UP  && !this.isAboveGround()){
             this.jump();
             // jumping sound hier einfügen
@@ -49,10 +52,14 @@ export class Character extends MovableObjekt{
         this.world.camera_x = -this.x + 100;
     }, 1000 / 60);
 
-
+    // Mit If abfragen können wir die dazugehörigen Bilderabfolgen starten
     IntervalHub.startInterval(() => {
-        if(this.isAboveGround()){
+        if(this.isDead()){
+            this.playAnimation(ImageHub.pepe.dead);
+        } else if(this.isAboveGround()){
             this.playAnimation(ImageHub.pepe.jump);
+        } else if(this.isHurt()){
+            this.playAnimation(ImageHub.pepe.hurt);
         } else{
             if (Keyboard.RIGHT || Keyboard.LEFT) {
                 this.playAnimation(ImageHub.pepe.walk);

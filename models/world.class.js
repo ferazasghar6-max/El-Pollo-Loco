@@ -5,8 +5,11 @@ import { Chicken } from "./chicken.class.js";
 import { Cloud } from "./cloud.class.js";
 import { Endboss } from "./endboss.class.js";
 import { ImageHub } from "./imageHub.class.js";
+import { IntervalHub } from "./intervalHub.class.js";
 import { Keyboard } from "./keyboard.class.js";
 import { Level } from "./level.class.js";
+import { StatusBar } from "./status-bar.class.js";
+import { ThrowableObject } from "./throwable-object.class.js";
 
 
 export class World {
@@ -16,6 +19,8 @@ export class World {
     canvas;
     ctx;
     camera_x = 0;
+    statusBar = new StatusBar();
+    throwableObjects = [];
 
     constructor(canvas){
         // Mit ctx.getContext("2d") lässt uns Methoden aufrufen für unser Canvas 
@@ -24,8 +29,9 @@ export class World {
         this.canvas = canvas;
         this.draw();
         this.setWorld();
+        this.checkCollisions();
+        this.run();
     }
-
 
     setWorld(){
         // this ist die Instanz selbst! (Hier wird die gesammte Klasse World übergeben)
@@ -33,30 +39,58 @@ export class World {
     }
 
 
+    run(){
+        IntervalHub.startInterval(() => {
+            this.checkCollisions();
+            this.checkThrowObjects();
+        }, 1000 / 25);
+    }
+
+    checkThrowObjects(){
+        if(Keyboard.D){
+            let bottle = new ThrowableObject(this.character.x + 100, this.character.y + 100);
+            this.throwableObjects.push(bottle);
+        }
+    }
+
+    checkCollisions(){
+        
+        this.level.enemies.forEach((enemy) => {
+            if(this.character.isColliding(enemy)){
+            this.character.hit();
+            this.statusBar.setPercentage(this.character.energy);
+            }
+        });
+        
+    }
+
+
     draw(){
+
         // mit dieser Methode (clearRect(unserem canvas wie unten)) clearen wir den Canvas und können, 
         // wenn wir die Position von unseres movable-objekt verändern ohne das es sich doppelt.
         this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
 
-        // Wir verschieben unsere camera nach rechts ,0 ist die Y-Achse, die wir natürlich nicht verschieben wollen (muss aber angegeben werden!)
+        // Wir verschieben unsere camera nach rechts ,0 ist die Y-Achse, 
+        // die wir natürlich nicht verschieben wollen (muss aber angegeben werden!)
         this.ctx.translate(this.camera_x, 0);
 
         // mit addObjectstoMap lassen wir anderst als beim character (addToMap) eine forEach schleife drüber laufen 
         this.addObjectsToMap(this.level.backgroundObjects);
+        this.addToMap(this.character);
         this.addObjectsToMap(this.level.clouds);
         this.addObjectsToMap(this.level.enemies);
-        this.addToMap(this.character);
-        
-        // Hier verschieben unsere camera wieder zurück (,0) ist die Y-Achse
-        this.ctx.translate(-this.camera_x, 0);
+        this.addObjectsToMap(this.throwableObjects);
 
-        // bei dieser Funktion muss eine neue Variable erstellt werden, da requestAnimationFrame kein this kennt.
-        let self = this;
-        // Diese vorgefertigete Methode sorgt dafür, dass das Bild so oft gezeichnet wird, wie es dir Grafikkarte hergibt.
-        // (Wird immerwieder gezeichnet)
-        requestAnimationFrame(function(){
-            self.draw();
-        });
+        // Hier verschieben wir unsere Camera wieder nach links ,0 ist die Y-Achse, 
+        // die wir natürlich nicht verschieben wollen (muss aber angegeben werden!)
+        this.ctx.translate(-this.camera_x, 0);
+        // --------- Space for fixed Objects --------
+
+        this.addToMap(this.statusBar);
+
+        // () => Arrow-Function bindet die draw-methode an die Instanz der World-Class)
+        requestAnimationFrame( () => this.draw());
     }
 
     // damit lassen wir uns alle unsere Gegner / Hintergründe ect. anzeigen (wir rendern z.b. alle 3 chickens! / forEach)

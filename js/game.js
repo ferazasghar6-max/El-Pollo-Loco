@@ -13,9 +13,9 @@ function init(){
     canvas = document.getElementById("canvas");
     world = new World(canvas);
     Keyboard.setControls();
-    console.log("My Character is", world.character);
-    console.log(IntervalHub.allIntervals);
-    // console.log(world.character.world.keyboard);
+    // console.log("My Character is", world.character);
+    // console.log(IntervalHub.allIntervals);
+    
 }
 
 
