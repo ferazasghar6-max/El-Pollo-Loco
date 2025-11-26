@@ -56,8 +56,12 @@ export class World {
     }
 
     checkThrowObjects(){
-        if(Keyboard.D && BotleBar.pice > 0){
-            let bottle = new ThrowableObject(this.character.x + 80, this.character.y + 100);
+        if(Keyboard.D && BotleBar.pice > 0 && this.character.otherDirection){ // 
+            let bottle = new ThrowableObject(this.character.x, this.character.y + 100);
+            this.throwableObjects.push(bottle);
+            this.botleBar.setPice(BotleBar.pice);
+        } else if(Keyboard.D && BotleBar.pice > 0){ // 
+            let bottle = new ThrowableObject(this.character.x + 70, this.character.y + 100);
             this.throwableObjects.push(bottle);
             this.botleBar.setPice(BotleBar.pice);
         }
@@ -69,7 +73,7 @@ export class World {
 
     checkCollisions(){
         this.level.enemies.forEach((enemy) => {
-            if(this.character.isColliding(enemy) || this.character.isColliding2(enemy)){
+            if(this.character.isColliding(enemy)){
             this.character.hit();
             this.statusBar.setPercentage(this.character.energy);
             } 
@@ -78,7 +82,7 @@ export class World {
 
     checkCollisionsCoins(){
         this.level.coins.forEach((coins) => {
-            if(this.character.isColliding(coins) || this.character.isColliding2(coins)){
+            if(this.character.isColliding(coins)){
             CoinsBar.piece++;
             this.coinsBar.setPice(CoinsBar.piece);
             // bei Kollision muss der Coin verschwinden

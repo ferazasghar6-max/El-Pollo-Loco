@@ -12,6 +12,16 @@ export class CollectableObjekts extends DrawableObject{
     width = 100;
     currentImage = 0;
     imageCache = {};
+    offset = {
+        top: 5,
+        right: 5,
+        left: 5,
+        bottom: 5
+    }
+    rX;
+    rY;
+    rW;
+    rH;
 
     constructor(){
         super().loadImage("img/8_coin/coin_1.png");
@@ -19,6 +29,14 @@ export class CollectableObjekts extends DrawableObject{
         this.animate();
         this.playAnimation(ImageHub.coin.coinPuls);
         IntervalHub.startInterval(this.animate, 500);
+        IntervalHub.startInterval(this.getRealFrame, 1000/60);
+    }
+
+    getRealFrame = () =>{
+        this.rX = this.x + this.offset.left;
+        this.rY = this.y + this.offset.top;
+        this.rW = this.width - this.offset.left - this.offset.right;
+        this.rH = this.height - this.offset.top - this.offset.bottom;            
     }
 
     animate = () => {

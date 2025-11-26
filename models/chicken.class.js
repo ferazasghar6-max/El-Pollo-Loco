@@ -10,14 +10,26 @@ export class Chicken extends MovableObjekt{
     width = 100;
     speed = 0.35 + Math.random() * 0.35;
     energy = 100;
-    
+    offset = {
+        top: 0,
+        right: 0,
+        left: 0,
+        bottom: 0
+    }
+    rX;
+    rY;
+    rW;
+    rH;
 
+    
       constructor(){
         super().loadImage("img/3_enemies_chicken/chicken_normal/1_walk/1_w.png");
         // Erst müssen alle Bilder geladen werden  über loadImages um sie anzeigen zu können
         // über animate
         this.loadImages(ImageHub.chickenNormal.walk);
-        this.animate();         
+        this.animate();
+
+        IntervalHub.startInterval(this.getRealFrame, 1000/60); 
     }
 
     animate() {

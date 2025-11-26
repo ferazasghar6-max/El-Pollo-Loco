@@ -13,40 +13,48 @@ export class MovableObjekt extends DrawableObject{
     lastHit = 0;
     alive = true;
 
+
     constructor(){
         super();
-        // IntervalHub.startInterval(this.applyGravity, 1000 / 25); // ganzer Background fällt nach unten
+        // IntervalHub.startInterval(this.getRealFrame, 1000/60);
     }
     
     
-    applyGravity(){
-        IntervalHub.startInterval(() => {
+    applyGravity = () => {
             if(this.isAboveGround() || this.speedY > 0){
-            this.y -= this.speedY;
-            this.speedY -= this.acceleration;
+            this.y -= this.speedY; // Bewegung der Objekte auf der Y-Achse (Geschwindigkeit * acceleration)
+            this.speedY -= this.acceleration; // Fallgeschwindigkeit pro FPS
             }
-        }, 1000 / 25); // Bewegung der Objekte auf der Y-Achse (Geschwindigkeit * acceleration)
     }
 
-    isAboveGround(){
+    isAboveGround(){        
         return this.y < 150;
     }
 
-    isColliding(mo) {
+    getRealFrame = () =>{
+            this.rX = this.x + this.offset.left;
+            this.rY = this.y + this.offset.top;
+            this.rW = this.width - this.offset.left - this.offset.right;
+            this.rH = this.height - this.offset.top - this.offset.bottom;            
+        }
+
+
+    isColliding(mO) {
         // Es müssen 4 Bedingungen für eine Collission erfüllt sein
-        return this.x + this.width > mo.x &&
-           this.y + this.height > mo.y &&
-           this.x < mo.x &&
-           this.y < mo.y + mo.height;
+        return this.rX + this.rW > mO.rX &&
+           this.rY + this.rH > mO.rY &&
+           this.rX < mO.rX + mO.rW &&
+           this.rY < mO.rY + mO.rH;
     }
 
-    isColliding2(mo) { // Kollision von links
-        // Es müssen 4 Bedingungen für eine Collission erfüllt sein
-           return this.x < mo.x + mo.width &&
-           this.y + this.height > mo.y &&
-           this.x + this.width > mo.x &&
-           this.y < mo.y + mo.height;
-    }
+
+    // isColliding(mO) {
+    //     // Es müssen 4 Bedingungen für eine Collission erfüllt sein
+    //     return this.x + this.width > mO.x &&
+    //        this.y + this.height > mO.y &&
+    //        this.x < mO.x + mO.width &&
+    //        this.y < mO.y + mO.height;
+    // }
 
     hit(){
         this.energy -= 1;

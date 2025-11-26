@@ -7,13 +7,24 @@ import { MovableObjekt } from "./movable-object.class.js";
 
 export class Character extends MovableObjekt {
     x = 50;
-    y = 90; // 160
+    y = 160; 
     width = 100;
     height = 280;
     speed = 10;
     otherDirection = false;
     world;
     static lastKeypressed = 0;
+    offset = {
+        top: 20,
+        right: 20,
+        left: 20,
+        bottom: 20
+    }
+    rX;
+    rY;
+    rW;
+    rH;
+
 
     constructor() {
         // Ein Bild muss geladen werden, damit es standardmäßig etwas anzeigt, noch bevor man etwas drückt
@@ -26,17 +37,13 @@ export class Character extends MovableObjekt {
         this.loadImages(ImageHub.pepe.idle);
         this.loadImages(ImageHub.pepe.long);
         this.applyGravity();
-        // this.animate();
+        IntervalHub.startInterval(this.applyGravity, 1000 / 25);
         IntervalHub.startInterval(this.startMovement, 1000 / 60);
         IntervalHub.startInterval(this.startAnimation, 100);
-        
+
+        IntervalHub.startInterval(this.getRealFrame, 1000/60);
     }
 
-
-    // animate() {
-    //     this.startMovement(); 
-    //     this.startAnimation(); 
-    // }
 
     startMovement = () => {
             // Mit this.world.level.level_end_x verhindern wir, dass der Character weiter nach rechts laufen kann (Ende vom Level)
@@ -101,4 +108,8 @@ export class Character extends MovableObjekt {
     jump() {
         this.speedY = 30;
     }
+
+   
+
+
 }

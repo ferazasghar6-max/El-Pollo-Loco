@@ -31,7 +31,7 @@ export class BotleBar extends StatusBar{
                 return 3;
             }else if(BotleBar.pice >= 4){
                 return 2;
-            }else if(BotleBar.pice >= 2){
+            }else if(BotleBar.pice >= 1){
                 return 1;
             }else {
                 return 0;

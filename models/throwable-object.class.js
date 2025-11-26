@@ -23,6 +23,7 @@ export class ThrowableObject extends MovableObjekt {
         this.throw();
         IntervalHub.startInterval(this.startXMovement, 50);
         IntervalHub.startInterval(this.startRotation, 200);
+        IntervalHub.startInterval(this.applyGravity, 1000 / 25);
     }
 
     isAboveGround(){

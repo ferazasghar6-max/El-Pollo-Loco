@@ -27,10 +27,20 @@ export class DrawableObject {
         ctx.beginPath();
         ctx.lineWidth = "5";
         ctx.strokeStyle = "blue";
-        ctx.rect(this.x, this.y, this.width, this.height);
+        ctx.rect(this.x, this.y, this.width, this.height); // ctx.rect(this.rX, this.rY, this.rW, this.rH);
         ctx.stroke();
         // }
     }
+    // drawFrame(ctx){
+    //     // ticket abwarten
+    //     // if(this instanceof Character || this instanceof Chicken){
+    //     ctx.beginPath();
+    //     ctx.lineWidth = "5";
+    //     ctx.strokeStyle = "red";
+    //     ctx.rect(this.x + 10, this.y + 60, this.width - 20 -20, this.height -30 -10);
+    //     ctx.stroke();
+    //     // }
+    // }
 
     loadImages(arr){
         arr.forEach((path) => {

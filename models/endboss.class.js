@@ -10,11 +10,24 @@ export class Endboss extends MovableObjekt {
     height = 400;
     x = 2600;
     y = 55;
+    offset = {
+        top: 20,
+        right: 20,
+        left: 20,
+        bottom: 20
+    }
+    rX;
+    rY;
+    rW;
+    rH;
+
 
     constructor(){
         super().loadImage("img/4_enemie_boss_chicken/2_alert/G5.png");
         this.loadImages(ImageHub.endboss.alert);
         this.animate();
+
+        IntervalHub.startInterval(this.getRealFrame, 1000/60);
     }
     
     animate(){
