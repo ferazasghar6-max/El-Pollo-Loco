@@ -5,6 +5,7 @@ import { Character } from "./character.class.js";
 import { Chicken } from "./chicken.class.js";
 import { Cloud } from "./cloud.class.js";
 import { CoinsBar } from "./coins-bar.class.js";
+import { BotleObject } from "./collectable-botle.class.js";
 import { CollectableObjekts } from "./collectable-objects.class.js";
 import { Endboss } from "./endboss.class.js";
 import { ImageHub } from "./imageHub.class.js";
@@ -23,6 +24,7 @@ export class World {
     ctx;
     camera_x = 0;
     coins = new CollectableObjekts();
+    botle = new BotleObject();
     botleBar = new BotleBar();
     coinsBar = new CoinsBar();
     statusBar = new StatusBar();
@@ -104,6 +106,7 @@ export class World {
         this.addObjectsToMap(this.level.backgroundObjects);
         this.addObjectsToMap(this.level.clouds);
         this.addObjectsToMap(this.level.coins);
+        // this.addObjectsToMap(this.level.botle);
         this.addObjectsToMap(this.level.enemies);
         this.addObjectsToMap(this.throwableObjects);
         this.addToMap(this.character);
