@@ -4,11 +4,12 @@ import { MovableObjekt } from "./movable-object.class.js";
 
 export class Chicken extends MovableObjekt{
     // Math.random() holt zufällig eine Zahl zwischen 0 und 1 * 500 dann zwischen 1 und 500  
-    x = 200 + Math.random() * 500;
+    x = 1400 + Math.random() * 500;
     y = 335;
     height = 100;
     width = 100;
     speed = 0.35 + Math.random() * 0.35;
+    energy = 100;
     
 
       constructor(){

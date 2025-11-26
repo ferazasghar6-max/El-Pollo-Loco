@@ -6,7 +6,6 @@ export class DrawableObject {
     width;
     img;
     currentImage = 0;
-    // Wozu brauchen wir dieses Objekt genau? Falls nicht richtig beantwortet wird Nico fragen!
     imageCache = {}
 
     // loadImage (img/test.png);

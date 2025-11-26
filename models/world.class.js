@@ -1,8 +1,11 @@
 import { level1 } from "../levels/level1.js";
 import { BackgroundObject } from "./background-object.class.js";
+import { BotleBar } from "./bottle-bar.class.js";
 import { Character } from "./character.class.js";
 import { Chicken } from "./chicken.class.js";
 import { Cloud } from "./cloud.class.js";
+import { CoinsBar } from "./coins-bar.class.js";
+import { CollectableObjekts } from "./collectable-objects.class.js";
 import { Endboss } from "./endboss.class.js";
 import { ImageHub } from "./imageHub.class.js";
 import { IntervalHub } from "./intervalHub.class.js";
@@ -19,6 +22,9 @@ export class World {
     canvas;
     ctx;
     camera_x = 0;
+    coins = new CollectableObjekts();
+    botleBar = new BotleBar();
+    coinsBar = new CoinsBar();
     statusBar = new StatusBar();
     throwableObjects = [];
 
@@ -31,42 +37,57 @@ export class World {
         this.setWorld();
         this.checkCollisions();
         this.run();
+        IntervalHub.startInterval(this.run, 1000 / 60);
+        IntervalHub.startInterval(this.startThrow, 120);
     }
 
     setWorld(){
-        // this ist die Instanz selbst! (Hier wird die gesammte Klasse World übergeben)
+        // this ist die Instanz selbst! (Hier wird die gesammte instanzierung der Klasse World übergeben)
         this.character.world = this;
     }
 
+    youLost(){
+        
+    }
 
-    run(){
-        IntervalHub.startInterval(() => {
-            this.checkCollisions();
-            this.checkThrowObjects();
-        }, 1000 / 25);
+    run = () =>{
+        this.checkCollisions();
+        this.checkCollisionsCoins();
     }
 
     checkThrowObjects(){
-        if(Keyboard.D){
-            let bottle = new ThrowableObject(this.character.x + 100, this.character.y + 100);
+        if(Keyboard.D && BotleBar.pice > 0){
+            let bottle = new ThrowableObject(this.character.x + 80, this.character.y + 100);
             this.throwableObjects.push(bottle);
+            this.botleBar.setPice(BotleBar.pice);
         }
     }
 
+    startThrow = () =>{
+        this.checkThrowObjects();
+    }
+
     checkCollisions(){
-        
         this.level.enemies.forEach((enemy) => {
-            if(this.character.isColliding(enemy)){
+            if(this.character.isColliding(enemy) || this.character.isColliding2(enemy)){
             this.character.hit();
             this.statusBar.setPercentage(this.character.energy);
-            }
+            } 
         });
-        
+    }
+
+    checkCollisionsCoins(){
+        this.level.coins.forEach((coins) => {
+            if(this.character.isColliding(coins) || this.character.isColliding2(coins)){
+            CoinsBar.piece++;
+            this.coinsBar.setPice(CoinsBar.piece);
+            // bei Kollision muss der Coin verschwinden
+            } 
+        });
     }
 
 
     draw(){
-
         // mit dieser Methode (clearRect(unserem canvas wie unten)) clearen wir den Canvas und können, 
         // wenn wir die Position von unseres movable-objekt verändern ohne das es sich doppelt.
         this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
@@ -77,17 +98,27 @@ export class World {
 
         // mit addObjectstoMap lassen wir anderst als beim character (addToMap) eine forEach schleife drüber laufen 
         this.addObjectsToMap(this.level.backgroundObjects);
-        this.addToMap(this.character);
         this.addObjectsToMap(this.level.clouds);
+        this.addObjectsToMap(this.level.coins);
         this.addObjectsToMap(this.level.enemies);
         this.addObjectsToMap(this.throwableObjects);
+        this.addToMap(this.character);
 
         // Hier verschieben wir unsere Camera wieder nach links ,0 ist die Y-Achse, 
         // die wir natürlich nicht verschieben wollen (muss aber angegeben werden!)
         this.ctx.translate(-this.camera_x, 0);
-        // --------- Space for fixed Objects --------
 
+        // --------- Space for fixed Objects --------
+        this.addToMap(this.coinsBar);
         this.addToMap(this.statusBar);
+        this.addToMap(this.botleBar);
+
+        this.ctx.translate(this.camera_x, 0);
+        this.addToMap(this.character);
+        this.ctx.translate(-this.camera_x, 0);
+
+
+
 
         // () => Arrow-Function bindet die draw-methode an die Instanz der World-Class)
         requestAnimationFrame( () => this.draw());

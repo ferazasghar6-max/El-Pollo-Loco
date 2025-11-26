@@ -113,14 +113,69 @@ export class ImageHub{
         ]
     }
 
-    static healthBar = {
+    static statusBar = {
         health: [
-        "img/7_statusbars/1_statusbar/2_statusbar_health/blue/0.png",
-        "img/7_statusbars/1_statusbar/2_statusbar_health/blue/20.png",
-        "img/7_statusbars/1_statusbar/2_statusbar_health/blue/40.png",
-        "img/7_statusbars/1_statusbar/2_statusbar_health/blue/60.png",
-        "img/7_statusbars/1_statusbar/2_statusbar_health/blue/80.png",
-        "img/7_statusbars/1_statusbar/2_statusbar_health/blue/100.png"
-    ]
+            "img/7_statusbars/1_statusbar/2_statusbar_health/blue/0.png",
+            "img/7_statusbars/1_statusbar/2_statusbar_health/blue/20.png",
+            "img/7_statusbars/1_statusbar/2_statusbar_health/blue/40.png",
+            "img/7_statusbars/1_statusbar/2_statusbar_health/blue/60.png",
+            "img/7_statusbars/1_statusbar/2_statusbar_health/blue/80.png",
+            "img/7_statusbars/1_statusbar/2_statusbar_health/blue/100.png"
+        ],
+        coins: [
+            "img/7_statusbars/1_statusbar/1_statusbar_coin/blue/0.png",
+            "img/7_statusbars/1_statusbar/1_statusbar_coin/blue/20.png",
+            "img/7_statusbars/1_statusbar/1_statusbar_coin/blue/40.png",
+            "img/7_statusbars/1_statusbar/1_statusbar_coin/blue/60.png",
+            "img/7_statusbars/1_statusbar/1_statusbar_coin/blue/80.png",
+            "img/7_statusbars/1_statusbar/1_statusbar_coin/blue/100.png",
+        ],
+        botle: [
+            "img/7_statusbars/1_statusbar/3_statusbar_bottle/blue/0.png",
+            "img/7_statusbars/1_statusbar/3_statusbar_bottle/blue/20.png",
+            "img/7_statusbars/1_statusbar/3_statusbar_bottle/blue/40.png",
+            "img/7_statusbars/1_statusbar/3_statusbar_bottle/blue/60.png",
+            "img/7_statusbars/1_statusbar/3_statusbar_bottle/blue/80.png",
+            "img/7_statusbars/1_statusbar/3_statusbar_bottle/blue/100.png",
+        ],
+        statusEndboss: [
+            "img/7_statusbars/2_statusbar_endboss/orange/orange0.png",
+            "img/7_statusbars/2_statusbar_endboss/orange/orange20.png",
+            "img/7_statusbars/2_statusbar_endboss/orange/orange40.png",
+            "img/7_statusbars/2_statusbar_endboss/orange/orange60.png",
+            "img/7_statusbars/2_statusbar_endboss/orange/orange80.png",
+            "img/7_statusbars/2_statusbar_endboss/orange/orange100.png",
+        ]
+
+    }
+
+    static botle = {
+        botleRotation: [
+            "img/6_salsa_bottle/bottle_rotation/1_bottle_rotation.png",
+            "img/6_salsa_bottle/bottle_rotation/2_bottle_rotation.png",
+            "img/6_salsa_bottle/bottle_rotation/3_bottle_rotation.png",
+            "img/6_salsa_bottle/bottle_rotation/4_bottle_rotation.png"
+        ],
+        botleSplash: [
+            "img/6_salsa_bottle/bottle_rotation/bottle_splash/1_bottle_splash.png",
+            "img/6_salsa_bottle/bottle_rotation/bottle_splash/2_bottle_splash.png",
+            "img/6_salsa_bottle/bottle_rotation/bottle_splash/3_bottle_splash.png",
+            "img/6_salsa_bottle/bottle_rotation/bottle_splash/4_bottle_splash.png",
+            "img/6_salsa_bottle/bottle_rotation/bottle_splash/5_bottle_splash.png",
+            "img/6_salsa_bottle/bottle_rotation/bottle_splash/6_bottle_splash.png",
+        ]
+        
+
+    }
+
+    static loose = {
+        lost: ["img/9_intro_outro_screens/game_over/oh no you lost!.png"]
+    }
+
+    static coin = {
+        coinPuls: [
+            "img/8_coin/coin_1.png",
+            "img/8_coin/coin_2.png"
+        ]
     }
 }

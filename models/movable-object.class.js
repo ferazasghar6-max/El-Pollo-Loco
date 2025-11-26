@@ -8,9 +8,15 @@ export class MovableObjekt extends DrawableObject{
     speed = 0.15;
     otherDirection = false;
     speedY = 0;
-    acceleration = 2.5; // Fallgeschwindigkeit
+    acceleration = 2.5; // Fallgeschwindigkeit pro FPS
     energy = 100;
     lastHit = 0;
+    alive = true;
+
+    constructor(){
+        super();
+        // IntervalHub.startInterval(this.applyGravity, 1000 / 25); // ganzer Background fällt nach unten
+    }
     
     
     applyGravity(){
@@ -19,28 +25,31 @@ export class MovableObjekt extends DrawableObject{
             this.y -= this.speedY;
             this.speedY -= this.acceleration;
             }
-        }, 1000 / 25); // Bewegung der Objekte auf der Y-Achse (hoch uns runter)
+        }, 1000 / 25); // Bewegung der Objekte auf der Y-Achse (Geschwindigkeit * acceleration)
     }
 
     isAboveGround(){
-        // ThrowableObjects sollen immer Fallen!
-        // if (this instanceOf ThrowableObject){
-        //     return true;
-        // } else {
-        //     return this.y < 150;
-        // }
         return this.y < 150;
     }
 
     isColliding(mo) {
+        // Es müssen 4 Bedingungen für eine Collission erfüllt sein
         return this.x + this.width > mo.x &&
            this.y + this.height > mo.y &&
            this.x < mo.x &&
            this.y < mo.y + mo.height;
     }
 
+    isColliding2(mo) { // Kollision von links
+        // Es müssen 4 Bedingungen für eine Collission erfüllt sein
+           return this.x < mo.x + mo.width &&
+           this.y + this.height > mo.y &&
+           this.x + this.width > mo.x &&
+           this.y < mo.y + mo.height;
+    }
+
     hit(){
-        this.energy -= 5;
+        this.energy -= 1;
         if(this.energy < 0){
             this.energy = 0;
         } else{
@@ -75,12 +84,12 @@ export class MovableObjekt extends DrawableObject{
     }
 
 
-    playAnimation(images){
+    playAnimation(images){        
         let i = this.currentImage % images.length;
         let path = images[i];
         this.img = this.imageCache[path];
         this.currentImage++;
-}
+    }
 
 
 }
