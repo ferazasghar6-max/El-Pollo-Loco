@@ -13,9 +13,10 @@ export class Character extends MovableObjekt {
     speed = 10;
     otherDirection = false;
     world;
+    static isNearBy = false;
     static lastKeypressed = 0;
     offset = {
-        top: 20,
+        top: 50,
         right: 20,
         left: 20,
         bottom: 20
@@ -37,18 +38,24 @@ export class Character extends MovableObjekt {
         this.loadImages(ImageHub.pepe.idle);
         this.loadImages(ImageHub.pepe.long);
         this.applyGravity();
+        IntervalHub.startInterval(this.fightEndboss, 1000 / 25);
         IntervalHub.startInterval(this.applyGravity, 1000 / 25);
         IntervalHub.startInterval(this.startMovement, 1000 / 60);
         IntervalHub.startInterval(this.startAnimation, 100);
-
         IntervalHub.startInterval(this.getRealFrame, 1000/60);
+    }
+
+    fightEndboss = () => {
+        if(this.x > 2200){
+            Character.isNearBy = true;
+        }
     }
 
 
     startMovement = () => {
             // Mit this.world.level.level_end_x verhindern wir, dass der Character weiter nach rechts laufen kann (Ende vom Level)
             if (Keyboard.RIGHT && this.x < this.world.level.level_end_x) {
-                this.moveRight();
+                this.moveRight();                
                 this.otherDirection = false;
                 // walking sound hier einfügen
             }

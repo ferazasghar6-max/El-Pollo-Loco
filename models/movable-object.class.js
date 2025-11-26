@@ -11,14 +11,12 @@ export class MovableObjekt extends DrawableObject{
     acceleration = 2.5; // Fallgeschwindigkeit pro FPS
     energy = 100;
     lastHit = 0;
-    alive = true;
+    
 
 
     constructor(){
         super();
-        // IntervalHub.startInterval(this.getRealFrame, 1000/60);
     }
-    
     
     applyGravity = () => {
             if(this.isAboveGround() || this.speedY > 0){
@@ -48,14 +46,6 @@ export class MovableObjekt extends DrawableObject{
     }
 
 
-    // isColliding(mO) {
-    //     // Es müssen 4 Bedingungen für eine Collission erfüllt sein
-    //     return this.x + this.width > mO.x &&
-    //        this.y + this.height > mO.y &&
-    //        this.x < mO.x + mO.width &&
-    //        this.y < mO.y + mO.height;
-    // }
-
     hit(){
         this.energy -= 1;
         if(this.energy < 0){
@@ -76,8 +66,6 @@ export class MovableObjekt extends DrawableObject{
         timePassed = timePassed / 1000; // Differenz in Sekunden
         return timePassed < 2;
     }
-
-
 
     moveRight(){
         this.x += this.speed;

@@ -9,7 +9,7 @@ export class Chicken extends MovableObjekt{
     height = 100;
     width = 100;
     speed = 0.35 + Math.random() * 0.35;
-    energy = 100;
+    energy;
     offset = {
         top: 0,
         right: 0,
@@ -28,7 +28,6 @@ export class Chicken extends MovableObjekt{
         // über animate
         this.loadImages(ImageHub.chickenNormal.walk);
         this.animate();
-
         IntervalHub.startInterval(this.getRealFrame, 1000/60); 
     }
 

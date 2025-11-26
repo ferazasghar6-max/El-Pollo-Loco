@@ -65,10 +65,10 @@ export const level1 = new Level(
         new CollectableObjekts(ImageHub.coin.coinPuls[0])
     ],
     [
-        new BotleObject(ImageHub.botle.botleGround),
-        new BotleObject(ImageHub.botle.botleGround),
-        new BotleObject(ImageHub.botle.botleGround),
-        new BotleObject(ImageHub.botle.botleGround),
-        new BotleObject(ImageHub.botle.botleGround)
+        new BotleObject(ImageHub.botle.botleGround[0]),
+        new BotleObject(ImageHub.botle.botleGround[0]),
+        new BotleObject(ImageHub.botle.botleGround[0]),
+        new BotleObject(ImageHub.botle.botleGround[0]),
+        new BotleObject(ImageHub.botle.botleGround[0])
     ]
 ); 

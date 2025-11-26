@@ -13,10 +13,10 @@ export class CollectableObjekts extends DrawableObject{
     currentImage = 0;
     imageCache = {};
     offset = {
-        top: 5,
-        right: 5,
-        left: 5,
-        bottom: 5
+        top: 10,
+        right: 10,
+        left: 10,
+        bottom: 10
     }
     rX;
     rY;
