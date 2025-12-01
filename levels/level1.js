@@ -1,8 +1,8 @@
 import { BackgroundObject } from "../models/background-object.class.js";
 import { Chicken } from "../models/chicken.class.js";
 import { Cloud } from "../models/cloud.class.js";
-import { BotleObject } from "../models/collectable-botle.class.js";
-import { CollectableObjekts } from "../models/collectable-objects.class.js";
+import { CollectableBotle } from "../models/collectable-botle.class.js";
+import { CollectableCoins } from "../models/collectable-coins.class.js";
 import { Endboss } from "../models/endboss.class.js";
 import { ImageHub } from "../models/imageHub.class.js";
 import { Level } from "../models/level.class.js";
@@ -44,31 +44,31 @@ export const level1 = new Level(
         new BackgroundObject("img/5_background/layers/1_first_layer/2.png", 719 * 3)
     ],
     [
-        new CollectableObjekts(ImageHub.coin.coinPuls[0]),
-        new CollectableObjekts(ImageHub.coin.coinPuls[0]),
-        new CollectableObjekts(ImageHub.coin.coinPuls[0]),
-        new CollectableObjekts(ImageHub.coin.coinPuls[0]),
-        new CollectableObjekts(ImageHub.coin.coinPuls[0]),
-        new CollectableObjekts(ImageHub.coin.coinPuls[0]),
-        new CollectableObjekts(ImageHub.coin.coinPuls[0]),
-        new CollectableObjekts(ImageHub.coin.coinPuls[0]),
-        new CollectableObjekts(ImageHub.coin.coinPuls[0]),
-        new CollectableObjekts(ImageHub.coin.coinPuls[0]),
-        new CollectableObjekts(ImageHub.coin.coinPuls[0]),
-        new CollectableObjekts(ImageHub.coin.coinPuls[0]),
-        new CollectableObjekts(ImageHub.coin.coinPuls[0]),
-        new CollectableObjekts(ImageHub.coin.coinPuls[0]),
-        new CollectableObjekts(ImageHub.coin.coinPuls[0]),
-        new CollectableObjekts(ImageHub.coin.coinPuls[0]),
-        new CollectableObjekts(ImageHub.coin.coinPuls[0]),
-        new CollectableObjekts(ImageHub.coin.coinPuls[0]),
-        new CollectableObjekts(ImageHub.coin.coinPuls[0])
+        new CollectableCoins(ImageHub.coin.coinPuls[0]),
+        new CollectableCoins(ImageHub.coin.coinPuls[0]),
+        new CollectableCoins(ImageHub.coin.coinPuls[0]),
+        new CollectableCoins(ImageHub.coin.coinPuls[0]),
+        new CollectableCoins(ImageHub.coin.coinPuls[0]),
+        new CollectableCoins(ImageHub.coin.coinPuls[0]),
+        new CollectableCoins(ImageHub.coin.coinPuls[0]),
+        new CollectableCoins(ImageHub.coin.coinPuls[0]),
+        new CollectableCoins(ImageHub.coin.coinPuls[0]),
+        new CollectableCoins(ImageHub.coin.coinPuls[0]),
+        new CollectableCoins(ImageHub.coin.coinPuls[0]),
+        new CollectableCoins(ImageHub.coin.coinPuls[0]),
+        new CollectableCoins(ImageHub.coin.coinPuls[0]),
+        new CollectableCoins(ImageHub.coin.coinPuls[0]),
+        new CollectableCoins(ImageHub.coin.coinPuls[0]),
+        new CollectableCoins(ImageHub.coin.coinPuls[0]),
+        new CollectableCoins(ImageHub.coin.coinPuls[0]),
+        new CollectableCoins(ImageHub.coin.coinPuls[0]),
+        new CollectableCoins(ImageHub.coin.coinPuls[0])
     ],
     [
-        new BotleObject(ImageHub.botle.botleGround[0]),
-        new BotleObject(ImageHub.botle.botleGround[0]),
-        new BotleObject(ImageHub.botle.botleGround[0]),
-        new BotleObject(ImageHub.botle.botleGround[0]),
-        new BotleObject(ImageHub.botle.botleGround[0])
+        new CollectableBotle(ImageHub.botle.botleGround[0]),
+        new CollectableBotle(ImageHub.botle.botleGround[0]),
+        new CollectableBotle(ImageHub.botle.botleGround[0]),
+        new CollectableBotle(ImageHub.botle.botleGround[0]),
+        new CollectableBotle(ImageHub.botle.botleGround[0])
     ]
 ); 

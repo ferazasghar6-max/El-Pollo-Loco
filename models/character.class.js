@@ -8,18 +8,20 @@ import { MovableObjekt } from "./movable-object.class.js";
 export class Character extends MovableObjekt {
     x = 50;
     y = 160; 
-    width = 100;
+    width = 120;
     height = 280;
     speed = 10;
-    otherDirection = false;
     world;
+    lastHit;
+    isAlive;
+    static otherDirection = false;
     static isNearBy = false;
     static lastKeypressed = 0;
     offset = {
-        top: 50,
-        right: 20,
+        top: 120,
+        right: 40,
         left: 20,
-        bottom: 20
+        bottom: 30
     }
     rX;
     rY;
@@ -38,6 +40,7 @@ export class Character extends MovableObjekt {
         this.loadImages(ImageHub.pepe.idle);
         this.loadImages(ImageHub.pepe.long);
         this.applyGravity();
+        this.getRealFrame();
         IntervalHub.startInterval(this.fightEndboss, 1000 / 25);
         IntervalHub.startInterval(this.applyGravity, 1000 / 25);
         IntervalHub.startInterval(this.startMovement, 1000 / 60);
@@ -57,6 +60,7 @@ export class Character extends MovableObjekt {
             if (Keyboard.RIGHT && this.x < this.world.level.level_end_x) {
                 this.moveRight();                
                 this.otherDirection = false;
+                Character.otherDirection = false;
                 // walking sound hier einfügen
             }
 
@@ -64,6 +68,7 @@ export class Character extends MovableObjekt {
             if (Keyboard.LEFT && this.x > 0) {
                 this.moveLeft();
                 this.otherDirection = true;
+                Character.otherDirection = true;
                 // walking sound hier einfügen
             }
 
@@ -81,6 +86,7 @@ export class Character extends MovableObjekt {
         // Mit If abfragen können wir die dazugehörigen Bilderabfolgen starten
             if (this.isDead()) {
                 this.playAnimation(ImageHub.pepe.dead);
+                this.isAlive = false;
                 // hier alle animationen und intervalle stoppen und löschen!
                 // setTimeout(() =>{
                 //     IntervalHub.stopAllIntervals();

@@ -9,7 +9,7 @@ export class MovableObjekt extends DrawableObject{
     otherDirection = false;
     speedY = 0;
     acceleration = 2.5; // Fallgeschwindigkeit pro FPS
-    energy = 100;
+    energy;
     lastHit = 0;
     
 
@@ -34,8 +34,7 @@ export class MovableObjekt extends DrawableObject{
             this.rY = this.y + this.offset.top;
             this.rW = this.width - this.offset.left - this.offset.right;
             this.rH = this.height - this.offset.top - this.offset.bottom;            
-        }
-
+    }
 
     isColliding(mO) {
         // Es müssen 4 Bedingungen für eine Collission erfüllt sein
@@ -45,9 +44,21 @@ export class MovableObjekt extends DrawableObject{
            this.rY < mO.rY + mO.rH;
     }
 
-
     hit(){
         this.energy -= 1;
+        if(this.energy < 0){
+            this.energy = 0;
+        } else{
+            // diese Funktion ist vorgefertigt, und ermöglicht es uns 
+            // den Zeitpunkt der Collision in dem Fall zu bestimmen (new Date().getTime()) --> Milisekunden ab dem 01.01.1970
+            this.lastHit = new Date().getTime();
+        }
+    }
+
+    enemyHit(){
+        this.energy -= 100; 
+        console.log(this.energy);
+        
         if(this.energy < 0){
             this.energy = 0;
         } else{
@@ -78,7 +89,6 @@ export class MovableObjekt extends DrawableObject{
     jump(){
         this.speedY = 30;
     }
-
 
     playAnimation(images){        
         let i = this.currentImage % images.length;

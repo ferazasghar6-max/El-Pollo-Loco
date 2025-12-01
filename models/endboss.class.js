@@ -25,7 +25,8 @@ export class Endboss extends MovableObjekt {
     rH;
 
     constructor() {
-        super().loadImage("img/4_enemie_boss_chicken/2_alert/G5.png");
+        super();
+        this.loadImage("img/4_enemie_boss_chicken/2_alert/G5.png");
         this.loadImages(ImageHub.endboss.alert);
         this.loadImages(ImageHub.endboss.walk);
         this.loadImages(ImageHub.endboss.dead);
@@ -34,19 +35,15 @@ export class Endboss extends MovableObjekt {
         IntervalHub.startInterval(this.startAnimation, 200);
         IntervalHub.startInterval(this.animate, 200);
         IntervalHub.startInterval(this.getRealFrame, 1000 / 60);
-        // IntervalHub.startInterval(this.animate, 200);
     }
 
-    // animate = () => {
-    //     this.playAnimation(ImageHub.endboss.alert);
-    // }
 
     startMovement = () => {
         // this.x > 0 verhindert, dass der character weiter nach links laufen kann
-        if (Character.isNearBy) {                        
+        if (Character.isNearBy && !this.isDead()) {                        
             this.moveLeft();
             // walking sound hier einfügen
-        }
+        } 
     };
 
     startAnimation = () => {

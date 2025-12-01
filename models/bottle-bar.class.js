@@ -9,10 +9,10 @@ export class BotleBar extends StatusBar{
         width = 200;
         static pice = 10;
         
-    
         constructor(){
             super().loadImage("img/7_statusbars/1_statusbar/3_statusbar_bottle/blue/100.png");
             this.loadImages(ImageHub.statusBar.botle);
+            this.setPice(10);
         }
     
         setPice(pice){
@@ -20,7 +20,6 @@ export class BotleBar extends StatusBar{
             let path = ImageHub.statusBar.botle[this.resolveImageIndex()];
             this.img = this.imageCache[path];
         }
-    
         
         resolveImageIndex(){
             if(BotleBar.pice >= 10){
@@ -33,7 +32,7 @@ export class BotleBar extends StatusBar{
                 return 2;
             }else if(BotleBar.pice >= 1){
                 return 1;
-            }else {
+            }else {                
                 return 0;
             }
         }

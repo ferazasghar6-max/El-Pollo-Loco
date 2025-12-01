@@ -5,10 +5,10 @@ import { IntervalHub } from "./intervalHub.class.js";
 
 
 
-export class BotleObject extends CollectableObjekts{
+export class CollectableBotle extends CollectableObjekts{
     // + Math.random() * 500;
     x = 100 + Math.random() * 2150;
-    y = 300;
+    y = 340;
     height = 100;
     width = 100;
     offset = {
@@ -23,9 +23,11 @@ export class BotleObject extends CollectableObjekts{
     rH;
 
     constructor(){
-        super().loadImage("img/6_salsa_bottle/1_salsa_bottle_on_ground.png");
-        // this.loadImages(ImageHub.botle.botleGround);
-        // IntervalHub.startInterval(this.getRealFrame, 1000/60);
+        super();
+        this.loadImage("img/6_salsa_bottle/1_salsa_bottle_on_ground.png");
+        this.loadImages(ImageHub.botle.botleGround);
+        this.getRealFrame();
+        IntervalHub.startInterval(this.getRealFrame, 1000/60);
     }
 
 }

@@ -5,31 +5,17 @@ import { IntervalHub } from "./intervalHub.class.js";
 
 
 export class CollectableObjekts extends DrawableObject{
-    // + Math.random() * 500;
-    x = 100 + Math.random() * 2150;
-    y = 100 + Math.random() * 200;
-    height = 100;
-    width = 100;
+  
+    x;
+    y;
+    height;
+    width;
     currentImage = 0;
     imageCache = {};
-    offset = {
-        top: 10,
-        right: 10,
-        left: 10,
-        bottom: 10
-    }
-    rX;
-    rY;
-    rW;
-    rH;
+    
 
     constructor(){
-        super().loadImage("img/8_coin/coin_1.png");
-        this.loadImages(ImageHub.coin.coinPuls);
-        this.animate();
-        this.playAnimation(ImageHub.coin.coinPuls);
-        IntervalHub.startInterval(this.animate, 500);
-        IntervalHub.startInterval(this.getRealFrame, 1000/60);
+        super();
     }
 
     getRealFrame = () =>{
@@ -37,15 +23,6 @@ export class CollectableObjekts extends DrawableObject{
         this.rY = this.y + this.offset.top;
         this.rW = this.width - this.offset.left - this.offset.right;
         this.rH = this.height - this.offset.top - this.offset.bottom;            
-    }
-
-    animate = () => {
-        this.puls();   
-    }
-    
-
-    puls(){
-        this.playAnimation(ImageHub.coin.coinPuls);
     }
 
     playAnimation(images){        

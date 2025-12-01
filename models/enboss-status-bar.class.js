@@ -1,27 +1,28 @@
+
 import { DrawableObject } from "./drawable-object.class.js";
 import { ImageHub } from "./imageHub.class.js";
 import { IntervalHub } from "./intervalHub.class.js";
 
 
-export class StatusBar extends DrawableObject{
+export class EndbossBar extends DrawableObject{
     
-    x = 0;
+    x = 510;
     y = 0;
     height = 60;
     width = 200;
-
+    lastHit;
     percentage;
 
     constructor(){
         super();
-        this.loadImage("img/7_statusbars/1_statusbar/2_statusbar_health/blue/100.png");
-        this.loadImages(ImageHub.statusBar.health);
+        this.loadImage(ImageHub.statusBar.statusEndboss[0]);
+        this.loadImages(ImageHub.statusBar.statusEndboss);
         this.setPercentage(100);
     }
 
     setPercentage(percentage){
         this.percentage = percentage;
-        let path = ImageHub.statusBar.health[this.resolveImageIndex()];
+        let path = ImageHub.statusBar.statusEndboss[this.resolveImageIndex()];
         this.img = this.imageCache[path];
     }
 
@@ -40,9 +41,4 @@ export class StatusBar extends DrawableObject{
             return 0;
         }
     }
-
-
-
-
-
 }

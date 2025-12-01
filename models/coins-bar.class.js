@@ -7,7 +7,7 @@ export class CoinsBar extends StatusBar{
         y = 50;
         height = 60;
         width = 200;
-        static piece = 0
+        static pice = 0
     
         constructor(){
             super().loadImage("img/7_statusbars/1_statusbar/1_statusbar_coin/blue/0.png");
