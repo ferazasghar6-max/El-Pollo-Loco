@@ -42,7 +42,7 @@ export class ThrowableObject extends MovableObjekt {
         IntervalHub.startInterval(this.startXMovement, 50);
         IntervalHub.startInterval(this.startRotation, 200);
         IntervalHub.startInterval(this.applyGravity, 1000 / 25);
-        IntervalHub.startInterval(this.splash, 1000 / 25);
+        IntervalHub.startInterval(this.splash, 200);
     }
 
     isAboveGround(){
@@ -76,11 +76,11 @@ export class ThrowableObject extends MovableObjekt {
 
     splash = () => {
         if(this.collided){
-        this.playAnimation(ImageHub.botle.botleSplash);
-        // this.isAboveGround = false;
+        this.playAnimationOnce(ImageHub.botle.botleSplash);
+        this.isAboveGround = () => true; 
+        // Wieso funktioniert das nicht? ---> eventuell lößt sich das Problem nach dem Berichtigen der Kollisionen mit den kleinen Chicken
         } 
     }
-
 
 
 }

@@ -13,6 +13,7 @@ export class Endboss extends MovableObjekt {
     energy = 1000;
     lastHit;
     speed = 10;
+    static alive = true;
     offset = {
         top: 20,
         right: 20,
@@ -37,20 +38,23 @@ export class Endboss extends MovableObjekt {
         IntervalHub.startInterval(this.getRealFrame, 1000 / 60);
     }
 
-
     startMovement = () => {
         // this.x > 0 verhindert, dass der character weiter nach links laufen kann
-        if (Character.isNearBy && !this.isDead()) {                        
+        if (Character.isNearBy && !this.isDead()) {
             this.moveLeft();
             // walking sound hier einfügen
-        } 
+        }
     };
 
     startAnimation = () => {
         // Mit If abfragen können wir die dazugehörigen Bilderabfolgen starten
         if (this.isDead()) {
             this.playAnimation(ImageHub.endboss.dead);
+            Endboss.alive = false;
             // hier alle animationen und intervalle stoppen und löschen!
+            setTimeout(() => {
+                IntervalHub.stopAllIntervals();
+            }, 400);
         } else if (this.isHurt()) {
             this.playAnimation(ImageHub.endboss.hurt);
         } else if (Character.isNearBy) {

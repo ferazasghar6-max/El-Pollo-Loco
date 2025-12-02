@@ -22,6 +22,8 @@ export class World {
     level = level1;
     canvas;
     ctx;
+    imgLost;
+    imgWin;
     camera_x = 0;
     coins = new CollectableCoins();
     botle = new CollectableBotle();
@@ -31,7 +33,7 @@ export class World {
     endbossBar = new EndbossBar();
     throwableObjects = [];
     collided = false;
-    
+    isThrowing = false;
 
     constructor(canvas) {
         // Mit ctx.getContext("2d") lässt uns Methoden aufrufen für unser Canvas
@@ -42,7 +44,8 @@ export class World {
         this.setWorld();
         this.run();
         IntervalHub.startInterval(this.run, 1000 / 60);
-        IntervalHub.startInterval(this.startThrow, 120); // nochmal überarbeiten, wenn geworfen (keydown) auf true setzen wenn (keyup) auf false
+        this.imgLost = this.loadImage(ImageHub.loose.lost[0]);
+        this.imgWin = this.loadImage(ImageHub.win.won[0]);
     }
 
     setWorld() {
@@ -50,59 +53,96 @@ export class World {
         this.character.world = this;
     }
 
-    youLost() {}
+    loadImage(path) {
+        const img = new Image();
+        img.src = path;
+        return img;
+    }
+
+    youLost() {
+        if (this.character.isDead()) {
+            this.ctx.drawImage(
+                this.imgLost,
+                0,
+                0,
+                this.canvas.width,
+                this.canvas.height
+            );
+        }
+    }
+
+    youWon() {
+        if (!Endboss.alive) {
+            this.ctx.drawImage(
+                this.imgWin,
+                0,
+                0,
+                this.canvas.width,
+                this.canvas.height
+            );
+        }
+    }
 
     run = () => {
         this.checkCollisions();
         this.checkCollisionsCoins();
         this.checkCollisionsBotle();
         this.checkCollisionsThrowBotel();
+        this.checkThrowObjects();
+        this.youLost();
+        this.youWon();
     };
 
-    checkThrowObjects() {
-        if (Keyboard.D && BotleBar.pice > 0 && Character.otherDirection) {
-            let bottle = new ThrowableObject(
-                this.character.x - 20,
-                this.character.y + 100
-            );
+    checkThrowObjects = () => {
+        if (Keyboard.D && BotleBar.pice > 0 && !this.isThrowing) {
+            // Flasche in die richtige Richtung werfen
+            let bottle;
+            if (Character.otherDirection) {
+                bottle = new ThrowableObject(
+                    this.character.x - 20,
+                    this.character.y + 100
+                );
+            } else {
+                bottle = new ThrowableObject(
+                    this.character.x + 70,
+                    this.character.y + 100
+                );
+            }
             this.throwableObjects.push(bottle);
             this.botleBar.setPice(BotleBar.pice);
-        } else if (Keyboard.D && BotleBar.pice > 0 && !Character.otherDirection) {
-            let bottle = new ThrowableObject(
-                this.character.x + 70,
-                this.character.y + 100
-            );
-            this.throwableObjects.push(bottle);
-            this.botleBar.setPice(BotleBar.pice);
+            //damit nicht mehrfach geworfen wird
+            this.isThrowing = true;
         }
-    }
-
-    startThrow = () => { // nochmal überarbeiten, wenn geworfen (keydown) auf true setzen wenn (keyup) auf false
-        this.checkThrowObjects();
+        if (!Keyboard.D) {
+            this.isThrowing = false;
+        }
     };
 
     checkCollisions() {
         this.level.enemies.forEach((enemy) => {
-            if (this.character.isColliding(enemy) && !enemy.isDead()) { // enemy alive?
+            if (this.character.isColliding(enemy) && !enemy.isDead()) {
                 this.character.hit();
                 this.statusBar.setPercentage(this.character.energy);
             }
         });
     }
 
-   checkCollisionsThrowBotel() {
+    checkCollisionsThrowBotel() {
+        // WIESO FUNKTIONIERT ES NICHT IMMER?
         this.level.enemies.forEach((enemy) => {
-            this.throwableObjects.forEach((botle, index) =>{
-            if (botle.isColliding(enemy) && !botle.collided) {
-                console.log("treffer");
-                enemy.enemyHit();
-                botle.collided = true;
-                // this.throwableObjects.splice(index, 1);
-                if(enemy instanceof Endboss){
-                this.endbossBar.setPercentage(enemy.energy);
+            this.throwableObjects.forEach((botle, index) => {
+                if (botle.isColliding(enemy) && !botle.collided) {
+                    console.log("treffer", enemy);
+                    enemy.enemyHit();
+                    botle.collided = true;
+                    setTimeout(() => {
+                        this.throwableObjects.splice(index, 1);
+                    }, 200);
+                    if (enemy instanceof Endboss) {
+                        this.endbossBar.setPercentage(enemy.energy);
+                        console.log(enemy.energy);
+                    }
                 }
-            }
-            
             });
         });
     }
@@ -118,14 +158,14 @@ export class World {
     }
 
     checkCollisionsBotle() {
-    this.level.botle.forEach((botle, index) => {
-        if (this.character.isColliding(botle)) {
-            BotleBar.pice++;
-            this.botleBar.setPice(BotleBar.pice);
-            this.level.botle.splice(index, 1);
-        }
-    });
-}
+        this.level.botle.forEach((botle, index) => {
+            if (this.character.isColliding(botle)) {
+                BotleBar.pice++;
+                this.botleBar.setPice(BotleBar.pice);
+                this.level.botle.splice(index, 1);
+            }
+        });
+    }
 
     draw() {
         // mit dieser Methode (clearRect(unserem canvas wie unten)) clearen wir den Canvas und können,
@@ -155,6 +195,9 @@ export class World {
         this.addToMap(this.statusBar);
         this.addToMap(this.botleBar);
         this.addToMap(this.endbossBar);
+
+        this.youLost();
+        this.youWon();
 
         this.ctx.translate(this.camera_x, 0);
         this.addToMap(this.character);

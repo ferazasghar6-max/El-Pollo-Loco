@@ -175,10 +175,19 @@ export class ImageHub{
         lost: ["img/9_intro_outro_screens/game_over/oh no you lost!.png"]
     }
 
+    static win = {
+        won: ["img/You won, you lost/You Win A.png"]
+    }
+
     static coin = {
         coinPuls: [
             "img/8_coin/coin_1.png",
             "img/8_coin/coin_2.png"
         ]
     }
+
+    static start = {
+        startDisplay: ["img/9_intro_outro_screens/start/startscreen_1.png"]
+    }
+    
 }

@@ -9,7 +9,6 @@ export class StatusBar extends DrawableObject{
     y = 0;
     height = 60;
     width = 200;
-
     percentage;
 
     constructor(){

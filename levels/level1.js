@@ -7,7 +7,7 @@ import { Endboss } from "../models/endboss.class.js";
 import { ImageHub } from "../models/imageHub.class.js";
 import { Level } from "../models/level.class.js";
 
-export const level1 = new Level(
+export let level1 = new Level(
     [
         new Chicken(),
         new Chicken(),
@@ -72,3 +72,7 @@ export const level1 = new Level(
         new CollectableBotle(ImageHub.botle.botleGround[0])
     ]
 ); 
+// let level1;
+// function initLevel(){
+//    level1 = new Level (....)
+// }

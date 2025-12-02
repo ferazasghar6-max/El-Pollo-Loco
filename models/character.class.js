@@ -4,6 +4,7 @@ import { IntervalHub } from "./intervalHub.class.js";
 import { Keyboard } from "./keyboard.class.js";
 import { Level } from "./level.class.js";
 import { MovableObjekt } from "./movable-object.class.js";
+import { SoundHub } from "./soundHub.class.js";
 
 export class Character extends MovableObjekt {
     x = 50;
@@ -14,6 +15,7 @@ export class Character extends MovableObjekt {
     world;
     lastHit;
     isAlive;
+    energy = 100;
     static otherDirection = false;
     static isNearBy = false;
     static lastKeypressed = 0;
@@ -61,6 +63,7 @@ export class Character extends MovableObjekt {
                 this.moveRight();                
                 this.otherDirection = false;
                 Character.otherDirection = false;
+                
                 // walking sound hier einfügen
             }
 
@@ -88,10 +91,9 @@ export class Character extends MovableObjekt {
                 this.playAnimation(ImageHub.pepe.dead);
                 this.isAlive = false;
                 // hier alle animationen und intervalle stoppen und löschen!
-                // setTimeout(() =>{
-                //     IntervalHub.stopAllIntervals();
-                //     // funktion zum auslösen des "du hast verloren" Bildes // youLost()
-                // }, 400)
+                setTimeout(() =>{
+                    IntervalHub.stopAllIntervals();
+                }, 400)
             } else if (this.isAboveGround()) {
                 this.playAnimation(ImageHub.pepe.jump);
                 this.long();
@@ -101,8 +103,12 @@ export class Character extends MovableObjekt {
             } else if (Keyboard.RIGHT || Keyboard.LEFT) {
                 this.playAnimation(ImageHub.pepe.walk);
                 this.long();
+                // Startet den Sound fürs Laufen
+                SoundHub.playOne(SoundHub.pepeWalk);
             } else if (this.isWaitingLong()) {
                 this.playAnimation(ImageHub.pepe.long);
+                // Stoppt alle angefangenen Sounds
+                SoundHub.stopAll();
             } else {
                 this.playAnimation(ImageHub.pepe.idle);
             }
