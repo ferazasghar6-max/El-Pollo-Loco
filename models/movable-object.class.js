@@ -7,6 +7,7 @@ export class MovableObjekt extends DrawableObject {
     speedY = 0;
     acceleration = 2.5; // Fallgeschwindigkeit pro FPS
     energy;
+    soundPlayed = false;
     lastHit = 0;
 
     constructor() {
@@ -53,10 +54,9 @@ export class MovableObjekt extends DrawableObject {
     }
 
     enemyHit() {
-        this.energy -= 100;
-        if (this.energy < 0) {
+        this.energy-= 100;
+        if (this.energy <= 0) {
             this.energy = 0;
-            console.log(this.energy);
         } else {
             // diese Funktion ist vorgefertigt, und ermöglicht es uns
             // den Zeitpunkt der Collision in dem Fall zu bestimmen (new Date().getTime()) --> Milisekunden ab dem 01.01.1970
@@ -65,7 +65,7 @@ export class MovableObjekt extends DrawableObject {
     }
 
     isDead() {
-        return this.energy == 0;
+        return this.energy <= 0;
     }
 
     isHurt() {

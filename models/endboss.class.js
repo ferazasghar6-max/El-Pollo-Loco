@@ -4,6 +4,7 @@ import { ImageHub } from "./imageHub.class.js";
 import { IntervalHub } from "./intervalHub.class.js";
 import { Level } from "./level.class.js";
 import { MovableObjekt } from "./movable-object.class.js";
+import { SoundHub } from "./soundHub.class.js";
 
 export class Endboss extends MovableObjekt {
     width = 300;
@@ -12,6 +13,7 @@ export class Endboss extends MovableObjekt {
     y = 55;
     energy = 1000;
     lastHit;
+    soundPlayed;
     speed = 10;
     static alive = true;
     offset = {
@@ -36,13 +38,25 @@ export class Endboss extends MovableObjekt {
         IntervalHub.startInterval(this.startAnimation, 200);
         IntervalHub.startInterval(this.animate, 200);
         IntervalHub.startInterval(this.getRealFrame, 1000 / 60);
+        IntervalHub.startInterval(this.setSound, 1000 / 60);
     }
 
     startMovement = () => {
         // this.x > 0 verhindert, dass der character weiter nach links laufen kann
         if (Character.isNearBy && !this.isDead()) {
             this.moveLeft();
-            // walking sound hier einfügen
+            this.soundPlayed = true;
+        }
+    };
+
+    setSound = () => {
+        if (!this.soundPlayed) {
+            SoundHub.playOne(SoundHub.enemyHit);
+        } else if (this.isDead()){
+            SoundHub.playOne(SoundHub.enemyDead);
+            setTimeout(() => {
+                SoundHub.stopAll();
+            }, 400);
         }
     };
 
@@ -57,6 +71,7 @@ export class Endboss extends MovableObjekt {
             }, 400);
         } else if (this.isHurt()) {
             this.playAnimation(ImageHub.endboss.hurt);
+            this.soundPlayed = false;
         } else if (Character.isNearBy) {
             this.playAnimation(ImageHub.endboss.walk);
         } else {

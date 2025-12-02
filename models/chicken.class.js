@@ -1,6 +1,7 @@
 import { ImageHub } from "./imageHub.class.js";
 import { IntervalHub } from "./intervalHub.class.js";
 import { MovableObjekt } from "./movable-object.class.js";
+import { SoundHub } from "./soundHub.class.js";
 
 export class Chicken extends MovableObjekt {
     // Math.random() holt zufällig eine Zahl zwischen 0 und 1 * 500 dann zwischen 1 und 500
@@ -10,11 +11,12 @@ export class Chicken extends MovableObjekt {
     width = 100;
     speed = 1 + Math.random() * 1;
     energy = 100;
+    soundPlayed;
     offset = {
-        top: 0,
-        right: 0,
-        left: 0,
-        bottom: 0,
+        top: 20,
+        right: 25,
+        left: 20,
+        bottom: 20,
     };
     rX;
     rY;
@@ -30,12 +32,15 @@ export class Chicken extends MovableObjekt {
         IntervalHub.startInterval(this.getRealFrame, 1000 / 60);
         IntervalHub.startInterval(this.startMovement, 1000 / 20);
         IntervalHub.startInterval(this.startAnimation, 200);
+        IntervalHub.startInterval(this.setSound, 1000 / 60);
     }
 
     startAnimation = () => {
         // Mit If abfragen können wir die dazugehörigen Bilderabfolgen starten
         if (this.isDead()) {
             this.playAnimation(ImageHub.chickenNormal.dead);
+            this.height = 50;
+            this.y = 385;
             // wie stoppe ich genau diesen Interval? (startMovement)
         } else {
             this.playAnimation(ImageHub.chickenNormal.walk);
@@ -43,8 +48,15 @@ export class Chicken extends MovableObjekt {
     };
 
     startMovement = () => {
-    if (!this.isDead()) {
-        this.moveLeft();
-    }
-};
+        if (!this.isDead()) {
+            this.moveLeft();
+        }
+    };
+
+    setSound = () => {
+        if (this.isDead() && !this.soundPlayed) {
+            SoundHub.playOne(SoundHub.enemyDead);
+            this.soundPlayed = true;
+        }
+    };
 }

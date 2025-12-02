@@ -14,6 +14,7 @@ import { ImageHub } from "./imageHub.class.js";
 import { IntervalHub } from "./intervalHub.class.js";
 import { Keyboard } from "./keyboard.class.js";
 import { Level } from "./level.class.js";
+import { SoundHub } from "./soundHub.class.js";
 import { StatusBar } from "./status-bar.class.js";
 import { ThrowableObject } from "./throwable-object.class.js";
 
@@ -42,7 +43,6 @@ export class World {
         this.canvas = canvas;
         this.draw();
         this.setWorld();
-        this.run();
         IntervalHub.startInterval(this.run, 1000 / 60);
         this.imgLost = this.loadImage(ImageHub.loose.lost[0]);
         this.imgWin = this.loadImage(ImageHub.win.won[0]);
@@ -129,21 +129,23 @@ export class World {
 
     checkCollisionsThrowBotel() {
         // WIESO FUNKTIONIERT ES NICHT IMMER?
-        this.level.enemies.forEach((enemy) => {
+        this.level.enemies.forEach((enemy, index) => {
             this.throwableObjects.forEach((botle, index) => {
                 if (botle.isColliding(enemy) && !botle.collided) {
-                    console.log("treffer", enemy);
                     enemy.enemyHit();
                     botle.collided = true;
+                    SoundHub.playOne(SoundHub.bottleBreak);
                     setTimeout(() => {
                         this.throwableObjects.splice(index, 1);
                     }, 200);
+
                     if (enemy instanceof Endboss) {
                         this.endbossBar.setPercentage(enemy.energy);
-                        console.log(enemy.energy);
                     }
                 }
             });
+
+
         });
     }
 
@@ -152,6 +154,7 @@ export class World {
             if (this.character.isColliding(coins)) {
                 CoinsBar.pice++;
                 this.coinsBar.setPice(CoinsBar.pice);
+                SoundHub.playOne(SoundHub.collectCoins);
                 this.level.coins.splice(index, 1);
             }
         });
@@ -162,6 +165,7 @@ export class World {
             if (this.character.isColliding(botle)) {
                 BotleBar.pice++;
                 this.botleBar.setPice(BotleBar.pice);
+                SoundHub.playOne(SoundHub.collectBottle);
                 this.level.botle.splice(index, 1);
             }
         });
@@ -222,7 +226,7 @@ export class World {
             this.flipImage(mo);
         }
         mo.draw(this.ctx);
-        mo.drawFrame(this.ctx);
+        // mo.drawFrame(this.ctx);
         // drawImage ist vorgefertigt von JS // hier fügen wir den character ein
         this.ctx.drawImage(mo.img, mo.x, mo.y, mo.width, mo.height);
 
