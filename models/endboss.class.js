@@ -14,6 +14,7 @@ export class Endboss extends MovableObjekt {
     energy = 1000;
     lastHit;
     soundPlayed;
+    hurtSound = false;
     speed = 10;
     static alive = true;
     offset = {
@@ -49,17 +50,38 @@ export class Endboss extends MovableObjekt {
         }
     };
 
+    // setSound = () => {
+    //     if (!this.soundPlayed) {
+    //         SoundHub.playOne(SoundHub.enemyHit);
+    //     } else if (this.isDead()){
+    //         SoundHub.playOne(SoundHub.enemyDead);
+    //         setTimeout(() => {
+    //             SoundHub.stopAll();
+    //         }, 400);
+    //     }
+    // };
+
     setSound = () => {
-        if (!this.soundPlayed) {
+        // Boss ist verletzt
+        if (this.isHurt() && !this.hurtSound) {
             SoundHub.playOne(SoundHub.enemyHit);
-        } else if (this.isDead()){
+            this.hurtSound = true;
+
+            setTimeout(() => {
+                this.hurtSound = false;
+            }, 2000);
+        }
+
+        // Boss stirbt
+        if (this.isDead()) {
             SoundHub.playOne(SoundHub.enemyDead);
+
             setTimeout(() => {
                 SoundHub.stopAll();
             }, 400);
         }
     };
-
+    
     startAnimation = () => {
         // Mit If abfragen können wir die dazugehörigen Bilderabfolgen starten
         if (this.isDead()) {

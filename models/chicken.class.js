@@ -9,13 +9,13 @@ export class Chicken extends MovableObjekt {
     y = 335;
     height = 100;
     width = 100;
-    speed = 1 + Math.random() * 1;
+    speed = 2 + Math.random() * 1;
     energy = 100;
     soundPlayed;
     offset = {
         top: 20,
         right: 25,
-        left: 20,
+        left: 35,
         bottom: 20,
     };
     rX;

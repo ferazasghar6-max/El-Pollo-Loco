@@ -21,13 +21,13 @@ export class DrawableObject {
     }
 
     // Hier lassen wir uns unsere blauen Rahmen anzeigen um unsere Elemente
-    // drawFrame(ctx){
-    //     ctx.beginPath();
-    //     ctx.lineWidth = "5";
-    //     ctx.strokeStyle = "blue";
-    //     ctx.rect(this.x, this.y, this.width, this.height); // ctx.rect(this.rX, this.rY, this.rW, this.rH);
-    //     ctx.stroke();
-    // }
+    drawFrame(ctx){
+        ctx.beginPath();
+        ctx.lineWidth = "5";
+        ctx.strokeStyle = "blue";
+        ctx.rect(this.x, this.y, this.width, this.height); // ctx.rect(this.rX, this.rY, this.rW, this.rH);
+        ctx.stroke();
+    }
 
     loadImages(arr){
         arr.forEach((path) => {

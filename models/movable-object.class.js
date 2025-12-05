@@ -8,6 +8,7 @@ export class MovableObjekt extends DrawableObject {
     acceleration = 2.5; // Fallgeschwindigkeit pro FPS
     energy;
     soundPlayed = false;
+    hurtSound = false;
     lastHit = 0;
 
     constructor() {

@@ -43,6 +43,7 @@ export class World {
         this.canvas = canvas;
         this.draw();
         this.setWorld();
+        IntervalHub.startInterval(this.finished, 1000 / 60);
         IntervalHub.startInterval(this.run, 1000 / 60);
         this.imgLost = this.loadImage(ImageHub.loose.lost[0]);
         this.imgWin = this.loadImage(ImageHub.win.won[0]);
@@ -91,7 +92,7 @@ export class World {
         this.checkThrowObjects();
         this.youLost();
         this.youWon();
-    };
+    }
 
     checkThrowObjects = () => {
         if (Keyboard.D && BotleBar.pice > 0 && !this.isThrowing) {
@@ -128,8 +129,7 @@ export class World {
     }
 
     checkCollisionsThrowBotel() {
-        // WIESO FUNKTIONIERT ES NICHT IMMER?
-        this.level.enemies.forEach((enemy, index) => {
+        this.level.enemies.forEach((enemy) => {
             this.throwableObjects.forEach((botle, index) => {
                 if (botle.isColliding(enemy) && !botle.collided) {
                     enemy.enemyHit();
@@ -144,8 +144,6 @@ export class World {
                     }
                 }
             });
-
-
         });
     }
 

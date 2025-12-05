@@ -14,12 +14,14 @@ export class Character extends MovableObjekt {
     speed = 10;
     world;
     lastHit;
-    isAlive;
+    // isAlive;
     energy = 100;
     static otherDirection = false;
+    static alive = true;
     static isNearBy = false;
     static lastKeypressed = 0;
-    soundPlayed;
+    soundPlayed = false;
+    hurtSound = false;
     offset = {
         top: 120,
         right: 40,
@@ -43,6 +45,7 @@ export class Character extends MovableObjekt {
         this.loadImages(ImageHub.pepe.long);
         this.applyGravity();
         this.getRealFrame();
+        this.long();
         IntervalHub.startInterval(this.setSoundSlow, 1000 / 4);
         IntervalHub.startInterval(this.setSoundFast, 1000 / 60);
         IntervalHub.startInterval(this.stopSound, 1000 / 60);
@@ -66,8 +69,6 @@ export class Character extends MovableObjekt {
             this.otherDirection = false;
             Character.otherDirection = false;
             this.soundPlayed = false;
-
-            // walking sound hier einfügen
         }
 
         // this.x > 0 verhindert, dass der character weiter nach links laufen kann
@@ -91,7 +92,7 @@ export class Character extends MovableObjekt {
         // Mit If abfragen können wir die dazugehörigen Bilderabfolgen starten
         if (this.isDead()) {
             this.playAnimation(ImageHub.pepe.dead);
-            this.isAlive = false;
+            Character.alive = false;
             SoundHub.stopAll();
             // hier alle animationen und intervalle stoppen und löschen!
             setTimeout(() => {
@@ -132,11 +133,12 @@ export class Character extends MovableObjekt {
         if (Keyboard.LEFT && !this.isAboveGround() || (Keyboard.RIGHT && !this.isAboveGround())) {
             // Startet den Sound fürs Laufen
             SoundHub.playOne(SoundHub.pepeWalk);
-        } else if (this.isHurt() && !this.soundPlayed) {
+        } else if (this.isHurt() && !this.hurtSound) {
             SoundHub.playOne(SoundHub.pepeHurt);
+            this.hurtSound = true;
             setTimeout(() => {
-                SoundHub.stopOne(SoundHub.pepeHurt);
-            }, 200);
+                this.hurtSound = false;
+            }, 2000);
         } else if (this.isWaitingLong() && !this.soundPlayed) {
             SoundHub.playOne(SoundHub.pepeSleep); 
             this.soundPlayed = true;

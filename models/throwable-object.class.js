@@ -19,10 +19,10 @@ export class ThrowableObject extends MovableObjekt {
     direktionLeft = false;
     collided;
     offset = {
-        top: 1,
-        right: 1,
-        left: 1,
-        bottom: 1
+        top: 10,
+        right: 10,
+        left: 10,
+        bottom: 10
     }
     rX;
     rY;
