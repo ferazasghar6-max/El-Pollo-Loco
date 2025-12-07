@@ -35,28 +35,29 @@ function start() {
     start.style.display = "none";
     canvas.style.display = "flex";
     init();
-}
+ }
 
-function finished() {
-    // if (!Character.alive || !Endboss.alive) {}
-        openDialog('restart-home');
-}
+ function finished() {
+        if (!Character.alive || !Endboss.alive) {
+            setTimeout(() => {
+            const start = document.getElementById("start-screen");
+            const canvas = document.getElementById("canvas-section");
+            start.style.display = "flex";
+            canvas.style.display = "none";
+            Character.alive = true;
+            Endboss.alive = true;
+            openDialog("restart-home");
+            }, 1000);
+        }
+    }
 
-// function home(){
-//     const startRef = document.getElementById("start-screen");
-//     const endRef = document.getElementById('restart-home');
-//     startRef.style.display = "flex";
-//     endRef.style.display = "none";
-// }
 
 function home() {
-    const startRef = document.getElementById("start-screen");
+    // const startRef = document.getElementById("start-screen");
     const endRef = document.getElementById('restart-home');
-
     endRef.close();           
     endRef.innerHTML = "";    
-
-    
+    endRef.style.display = "none";
 }
 
 function openDialog(id) {
@@ -71,7 +72,8 @@ function openDialog(id) {
     } else if (id == "restart-home"){
       const restartRef = document.getElementById("restart-home");
       restartRef.innerHTML = getRestartTemplate();
-      restartRef.showModal();
+      restartRef.style.display = "flex";
+      
     }
 }
 

@@ -34,6 +34,7 @@ export class World {
     endbossBar = new EndbossBar();
     throwableObjects = [];
     collided = false;
+    bottleCollided = false;
     isThrowing = false;
 
     constructor(canvas) {
@@ -43,7 +44,7 @@ export class World {
         this.canvas = canvas;
         this.draw();
         this.setWorld();
-        IntervalHub.startInterval(this.finished, 1000 / 60);
+        IntervalHub.startInterval(this.gameFinished, 1000 / 60);
         IntervalHub.startInterval(this.run, 1000 / 60);
         this.imgLost = this.loadImage(ImageHub.loose.lost[0]);
         this.imgWin = this.loadImage(ImageHub.win.won[0]);
@@ -53,6 +54,24 @@ export class World {
         // this ist die Instanz selbst! (Hier wird die gesammte instanzierung der Klasse World übergeben)
         this.character.world = this;
     }
+
+    gameFinished(){
+        finished();
+    }
+
+    // finished() {
+    //     if (!Character.alive || !Endboss.alive) {
+    //         setTimeout(() => {
+    //         const start = document.getElementById("start-screen");
+    //         const canvas = document.getElementById("canvas-section");
+    //         start.style.display = "flex";
+    //         canvas.style.display = "none";
+    //         Character.alive = true;
+    //         Endboss.alive = true;
+    //         openDialog("restart-home");
+    //         }, 1000);
+    //     }
+    // }
 
     loadImage(path) {
         const img = new Image();
@@ -85,6 +104,7 @@ export class World {
     }
 
     run = () => {
+        this.checkCollisionsFromTop();
         this.checkCollisions();
         this.checkCollisionsCoins();
         this.checkCollisionsBotle();
@@ -92,7 +112,7 @@ export class World {
         this.checkThrowObjects();
         this.youLost();
         this.youWon();
-    }
+    };
 
     checkThrowObjects = () => {
         if (Keyboard.D && BotleBar.pice > 0 && !this.isThrowing) {
@@ -128,12 +148,21 @@ export class World {
         });
     }
 
+    checkCollisionsFromTop() {
+        this.level.enemies.forEach((enemy) => {
+            if (enemy.isCollidingFromTop(this.character)) {
+                console.log(enemy.isCollidingFromTop(this.character));
+                enemy.enemyHit();                
+            }
+        });
+    }
+
     checkCollisionsThrowBotel() {
         this.level.enemies.forEach((enemy) => {
             this.throwableObjects.forEach((botle, index) => {
-                if (botle.isColliding(enemy) && !botle.collided) {
+                if (botle.isColliding(enemy) && !botle.bottleCollided) {
                     enemy.enemyHit();
-                    botle.collided = true;
+                    botle.bottleCollided = true;
                     SoundHub.playOne(SoundHub.bottleBreak);
                     setTimeout(() => {
                         this.throwableObjects.splice(index, 1);

@@ -15,7 +15,7 @@ export class Chicken extends MovableObjekt {
     offset = {
         top: 20,
         right: 25,
-        left: 35,
+        left: 10,
         bottom: 20,
     };
     rX;

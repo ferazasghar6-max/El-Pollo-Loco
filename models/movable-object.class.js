@@ -43,6 +43,15 @@ export class MovableObjekt extends DrawableObject {
         );
     }
 
+isCollidingFromTop(mO) {
+    return (
+        this.rX < mO.rX  + mO.rW -10 &&
+        this.rY < mO.rY + mO.rH &&
+        this.rX + this.rW > mO.rX
+    );
+}
+
+
     hit() {
         this.energy -= 1;
         if (this.energy < 0) {
@@ -55,7 +64,7 @@ export class MovableObjekt extends DrawableObject {
     }
 
     enemyHit() {
-        this.energy-= 100;
+        this.energy -= 100;
         if (this.energy <= 0) {
             this.energy = 0;
         } else {
@@ -101,5 +110,4 @@ export class MovableObjekt extends DrawableObject {
             this.currentImage++;
         }
     }
-
 }
