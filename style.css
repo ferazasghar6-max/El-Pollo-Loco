@@ -42,19 +42,21 @@ main{
     display: none;
 }
 
-.game-buttons {
-    height: 100dvh;
+#canvas-buttons{
+    position: absolute;
+    display: flex;
+    justify-content: space-between;
+    flex-direction: column;
     width: 100%;
-    position: fixed;
-    width: clamp(200px, 100%, 720px);
-    height: clamp(200px, 100%, 480px);
+    height: 480px;
+    z-index: 9999;
+}
 
+.game-buttons {
     img {
-        width: 24px;
-        height: 24px;
-
         &:hover {
             cursor: pointer;
+            filter: drop-shadow(5px 5px 10px rgba(0, 0, 0, 0.8));
         }
     }
 }
@@ -65,16 +67,12 @@ main{
 }
 
 #upper-buttons{
+    gap: 16px;
     display: flex;
     justify-content: flex-end;
-    gap: 24px;
 }
 
-#lower-buttons{
-    display: flex;
-    align-items: flex-end;
-    justify-content: space-between;
-}
+
 
 canvas {
     background-color: black;

@@ -43,14 +43,14 @@ export class MovableObjekt extends DrawableObject {
         );
     }
 
-isCollidingFromTop(mO) {
-    return (
-        this.rX < mO.rX  + mO.rW -10 &&
-        this.rY < mO.rY + mO.rH &&
-        this.rX + this.rW > mO.rX
-    );
-}
-
+    isCollidingFromTop(mO) {
+        return (
+            // flag setzen noch!
+            this.rX < mO.rX + mO.rW - 15 &&
+            this.rY < mO.rY + mO.rH &&
+            this.rX - 15 + this.rW > mO.rX
+        );
+    }
 
     hit() {
         this.energy -= 1;
