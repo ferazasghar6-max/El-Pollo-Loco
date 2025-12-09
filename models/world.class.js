@@ -44,10 +44,11 @@ export class World {
         this.canvas = canvas;
         this.draw();
         this.setWorld();
-        IntervalHub.startInterval(this.gameFinished, 1000 / 60);
-        IntervalHub.startInterval(this.run, 1000 / 60);
         this.imgLost = this.loadImage(ImageHub.loose.lost[0]);
         this.imgWin = this.loadImage(ImageHub.win.won[0]);
+
+        // hier starten wir run, welche unsere intervalle beinhaltet mit 60FPS
+        IntervalHub.startInterval(this.run, 1000 / 60);
     }
 
     setWorld() {
@@ -59,19 +60,6 @@ export class World {
         finished();
     }
 
-    // finished() {
-    //     if (!Character.alive || !Endboss.alive) {
-    //         setTimeout(() => {
-    //         const start = document.getElementById("start-screen");
-    //         const canvas = document.getElementById("canvas-section");
-    //         start.style.display = "flex";
-    //         canvas.style.display = "none";
-    //         Character.alive = true;
-    //         Endboss.alive = true;
-    //         openDialog("restart-home");
-    //         }, 1000);
-    //     }
-    // }
 
     loadImage(path) {
         const img = new Image();
@@ -104,6 +92,7 @@ export class World {
     }
 
     run = () => {
+        // hier starten wir unsere Intervalle 
         this.checkCollisionsFromTop();
         this.checkCollisions();
         this.checkCollisionsCoins();
@@ -112,6 +101,7 @@ export class World {
         this.checkThrowObjects();
         this.youLost();
         this.youWon();
+        // this.gameFinished();
     };
 
     checkThrowObjects = () => {
@@ -167,7 +157,6 @@ export class World {
                     setTimeout(() => {
                         this.throwableObjects.splice(index, 1);
                     }, 200);
-
                     if (enemy instanceof Endboss) {
                         this.endbossBar.setPercentage(enemy.energy);
                     }

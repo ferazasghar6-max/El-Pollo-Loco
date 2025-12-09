@@ -70,3 +70,8 @@ export class SoundHub {
         });
     }
 }
+
+
+
+
+// Soundhub zeigt Fehlermeldung, ist noch nicht zu Ende geladen prüfen!

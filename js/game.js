@@ -24,6 +24,8 @@ window.finished = finished;
 window.home = home;
 
 function init() {
+    // world = null funktioniert noch nicht weil noch intervalle laufen!
+    world = null;
     canvas = document.getElementById("canvas");
     world = new World(canvas);
     Keyboard.setControls();
@@ -73,7 +75,6 @@ function openDialog(id) {
       const restartRef = document.getElementById("restart-home");
       restartRef.innerHTML = getRestartTemplate();
       restartRef.style.display = "flex";
-      
     }
 }
 
@@ -115,6 +116,7 @@ function enterFullscreen(element) {
     }
 }
 
+// diese funktion brauchen wir vermutlich nicht (exitfullscreen)
 function exitFullscreen() {
     if (document.exitFullscreen) {
         document.exitFullscreen();
@@ -122,3 +124,21 @@ function exitFullscreen() {
         document.webkitExitFullscreen();
     }
 }
+
+// Responsive
+// Zu wenige Hühner
+// Collision von oben
+// JS Doc
+// Lebensbalken vom Endboss muss sich nach jedem treffer aktualisieren
+// toten code entfernen
+// Methoden Kürzen maximal 14 zeilen!!
+// Soundhub überprüfen
+// Sound Icon tauschen
+// Impressum Farben anpassen nicht richtig lesbar!
+// Soundicon tauschen
+// Restart button
+// Buttons Funktionsfähig machen
+
+// die Welt einen neuen wert zuweisen! leerer Array! und neu erstellen!!
+// es müssen alle referenzen gelöscht werden (alle intervalle, solange eins übrig ist gehts nicht!!) // world auf null setzen?
+// ALLE INTERVALLE MÜSSEN GELÖSCHT WERDEN!!

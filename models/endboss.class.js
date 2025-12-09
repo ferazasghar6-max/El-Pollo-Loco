@@ -66,7 +66,6 @@ export class Endboss extends MovableObjekt {
         if (this.isHurt() && !this.hurtSound) {
             SoundHub.playOne(SoundHub.enemyHit);
             this.hurtSound = true;
-
             setTimeout(() => {
                 this.hurtSound = false;
             }, 2000);
